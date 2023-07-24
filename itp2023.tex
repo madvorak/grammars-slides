@@ -150,4 +150,62 @@ $\exists$ g : grammar T, grammar_language g = L
 \end{lstlisting}
 	\end{frame}
 	
+	\begin{frame}[fragile]{Union of languages}
+\begin{lstlisting}
+def set.union (s$_1$ s$_2$ : set T) : set T :=
+{a | a $\in$ s$_1$ $\vee$ a $\in$ s$_2$}
+
+instance : language.has_add (language T) :=
+$\langle$set.union$\rangle$
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+theorem T0_of_T0_u_T0 (L$_1$ L$_2$ : language T) :
+  is_T0 L$_1$ $\wedge$ is_T0 L$_2\;\;\,\rightarrow\;\;\;$is_T0 (L$_1$ + L$_2$)
+\end{lstlisting}
+	\end{frame}
+	
+	\begin{frame}[fragile]{Reversal of a language}
+\begin{lstlisting}
+def reverse_lang (L : language T) :
+  language T :=
+$\lambda$ w : list T, w.reverse $\in$ L
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+theorem T0_of_reverse_T0 (L : language T) :
+is_T0 L$\;\;\,\rightarrow\;\;\,$is_T0 (reverse_lang L)
+\end{lstlisting}
+	\end{frame}
+	
+	\begin{frame}[fragile]{Concatenation of languages}
+\begin{lstlisting}
+def set.image2 (f : $\alpha$ $\rightarrow$ $\beta$ $\rightarrow$ $\gamma$)
+  (s : set $\alpha$) (t : set $\beta$) : set $\gamma$ :=
+{c | $\exists$ a b, a $\in$ s $\wedge$ b $\in$ t $\wedge$ f a b = c}
+
+instance : language.has_mul (language T) :=
+$\langle$set.image2 (++)$\rangle$
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+theorem T0_of_T0_c_T0 (L$_1$ L$_2$ : language T) :
+  is_T0 L$_1$ $\wedge$ is_T0 L$_2\;\;\,\rightarrow\;\;\;$is_T0 (L$_1$ * L$_2$)
+\end{lstlisting}
+	\end{frame}
+	
+	\begin{frame}[fragile]{Kleene star of a language}
+\begin{lstlisting}
+def language.star (L : language T) :
+  language T :=
+{x | $\exists$ S : list (list T), x = S.join    $\wedge$
+                       $\forall$ y $\in$ S, y $\in$ L}
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+theorem T0_of_star_T0 (L : language T) :
+  is_T0 L$\;\;\,\rightarrow\;\;\,$is_T0 L.star
+\end{lstlisting}
+	\end{frame}
+	
 \end{document}
