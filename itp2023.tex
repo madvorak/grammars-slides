@@ -13,7 +13,7 @@
 		\maketitle
 	\end{frame}
 	
-	\begin{frame}{Closure Properties of General Grammars\\Formally Verified}
+	\begin{frame}{Overview}
 		\begin{itemize}
 			\item Lean 3
 			\item Mathlib as of 2022-03-15
@@ -85,10 +85,10 @@ def grammar_transforms (g : grammar T)
 $\exists$ r : grule T g.nt,
   r $\in$ g.rules                     $\wedge$
   $\exists$ u v : list (symbol T g.nt),
-    w$_1$ = u ++ r.input_L
-         ++ [symbol.nonterminal r.input_N]
-         ++ r.input_R ++ v                 $\wedge$
-    w$_2$ = u ++ r.output_string ++ v
+    w$_1\,$ = u ++ r.input_L ++
+         [symbol.nonterminal r.input_N]
+         ++ r.input_R ++ v               $\wedge$
+    w$_2\,$ = u ++ r.output_string ++ v
 \end{lstlisting}
 	\end{frame}
 	
@@ -100,10 +100,10 @@ def grammar_transforms (g : grammar T)
 $\exists$ r : grule T g.nt,
   r $\in$ g.rules                     $\wedge$
   $\exists$ u v : list (symbol T g.nt),
-    w$_1$ = u ++ r.input_L
-         ++ [symbol.nonterminal r.input_N]
-         ++ r.input_R ++ v                 $\wedge$
-    w$_2$ = u ++ r.output_string ++ v
+    w$_1\,$ = u ++ r.input_L ++
+         [symbol.nonterminal r.input_N]
+         ++ r.input_R ++ v               $\wedge$
+    w$_2\,$ = u ++ r.output_string ++ v
 \end{lstlisting}
 \pause
 \begin{lstlisting}
@@ -169,7 +169,7 @@ $\exists$ g : grammar T, grammar_language g = L
 	\begin{frame}[fragile]{Union of languages}
 \begin{lstlisting}
 def set.union (s$_1$ s$_2$ : set T) : set T :=
-{a | a $\in$ s$_1$ $\vee$ a $\in$ s$_2$}
+{ a | a $\in$ s$_1$ $\vee$ a $\in$ s$_2$ }
 
 instance : language.has_add (language T) :=
 $\langle$set.union$\rangle$
@@ -211,7 +211,7 @@ is_T0 L$\;\;\,\rightarrow\;\;\,$is_T0 (reverse_lang L)
 \begin{lstlisting}
 def set.image2 (f : $\alpha$ $\rightarrow$ $\beta$ $\rightarrow$ $\gamma$)
   (s : set $\alpha$) (t : set $\beta$) : set $\gamma$ :=
-{c | $\exists$ a b, a $\in$ s $\wedge$ b $\in$ t $\wedge$ f a b = c}
+{ c | $\exists$ a b, a $\in$ s $\wedge$ b $\in$ t $\wedge$ f a b = c }
 
 instance : language.has_mul (language T) :=
 $\langle$set.image2 (++)$\rangle$
@@ -227,8 +227,8 @@ theorem T0_of_T0_c_T0 (L$_1$ L$_2$ : language T) :
 \begin{lstlisting}
 def language.star (L : language T) :
   language T :=
-{x | $\exists$ S : list (list T), x = S.join    $\wedge$
-                       $\forall$ y $\in$ S, y $\in$ L}
+{ x | $\exists$ S : list (list T), x = S.join
+                    $\wedge$   $\forall$ y $\in$ S, y $\in$ L }
 \end{lstlisting}
 \pause
 \begin{lstlisting}
@@ -237,49 +237,65 @@ theorem T0_of_star_T0 (L : language T) :
 \end{lstlisting}
 	\end{frame}
 	
-	\begin{frame}{Related work --- Chomsky hierarchy's lower levels}
+	\begin{frame}{Related work}{Chomsky hierarchy's lower levels}
 		\begin{itemize}
-			\item Finite automata and regular expressions (in many languages)
+			\item Finite automata and regular expressions
+			\begin{itemize}
+				\item in many languages
+			\end{itemize}
 			\item Context-free grammars
 			\begin{itemize}
-				\item (1992) Carlson et al.\ (Mizar)
-				\item (2007) Minamide (Isabelle)
-				\item (2010) Barthwal and Norrish (HOL4)
-				\item (2015) Firsov and Uustalu (Agda)
-				\item (2019) Ramos (Coq)
+				\item (1992) Carlson et al.\ [Mizar]
+				\item (2007) Minamide [Isabelle]
+				\item (2010) Barthwal and Norrish [HOL4]
+				\item (2015) Firsov and Uustalu [Agda]
+				\item (2019) Ramos [Coq]
 			\end{itemize}
 		\end{itemize}
 	\end{frame}
 	
-	\begin{frame}{Related work --- Turing-complete models}
+	\begin{frame}{Related work}{Turing-complete models}
 	\begin{itemize}
 		\item Turing machines
 		\begin{itemize}
-			\item (2001) Chen and Nakamura (Mizar)
-			\item (2012) Asperti and Ricciotti (Matita)
-			\item (2013) Xu et al.\ (Isabelle)
-			\item (2019) Carneiro (Lean)
-			\item (2020) Forster et al.\ (Coq)
-			\item (2023) Balbach (Isabelle)
+			\item (2001) Chen and Nakamura [Mizar]
+			\item (2012) Asperti and Ricciotti [Matita]
+			\item (2013) Xu et al.\ [Isabelle]
+			\item (2019) Carneiro [Lean]
+			\item (2020) Forster et al.\ [Coq]
+			\item (2023) Balbach [Isabelle]
 		\end{itemize}
 		\item Random access machines
 		\begin{itemize}
-			\item (2003) Coen (Coq)
+			\item (2003) Coen [Coq]
 		\end{itemize}
 		\item Lambda calculus
 		\begin{itemize}
-			\item (2017--2021) Forster, Kunze, and their colleagues (Coq)
+			\item (2017--2021) Forster, Kunze, and their colleagues [Coq]
 		\end{itemize}
 		\item Partial recursive functions
 		\begin{itemize}
-			\item (2011) Norrish (HOL4)
-			\item (2019) Carneiro (Lean)
+			\item (2011) Norrish [HOL4]
+			\item (2019) Carneiro [Lean]
 		\end{itemize}
 	\end{itemize}
 	\end{frame}
 	
 	\begin{frame}{Future work}
-		Equivalence
+		
+		Chomsky hierarchy
+		\begin{itemize}
+			\item Mathlib has regular languages.
+			\item We have context-free languages.
+			\item We want context-sensitive languages.
+		\end{itemize} \smallskip
+		
+		Equivalence (computability theory) between TMs and grammars
+		\begin{itemize}
+			\item Turing machine $\;\rightsquigarrow\;$ General grammar
+			\item General grammar $\;\rightsquigarrow\;$ Kuroda-NF grammar $\;\rightsquigarrow\;$ Nondeterministic multi-stack machine $\;\rightsquigarrow\;$ Turing machine
+		\end{itemize}
+		
 	\end{frame}
 	
 \end{document}
